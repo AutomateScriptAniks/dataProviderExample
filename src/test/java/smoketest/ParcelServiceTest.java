@@ -5,7 +5,7 @@ import com.jayway.restassured.http.ContentType;
 import org.junit.BeforeClass;
 
 import org.junit.Test;
-import utils.Constants;
+import utils.TestData;
 
 import static com.jayway.restassured.RestAssured.given;
 import static utils.JsonUtils.setBasePath;
@@ -16,8 +16,8 @@ public class ParcelServiceTest {
     @BeforeClass
     public static void setPath()
     {
-        setBasePort(Constants.parcelserviceport);
-        setBasePath(Constants.parcelId);
+        setBasePort(TestData.parcelserviceport);
+        setBasePath(TestData.parcelId);
     }
 
     @Test

@@ -3,11 +3,10 @@ package smoketest;
 
 import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.response.Response;
-import org.junit.Before;
 import org.junit.BeforeClass;
 
 import org.junit.Test;
-import utils.Constants;
+import utils.TestData;
 
 import static com.jayway.restassured.RestAssured.given;
 import static org.junit.Assert.assertEquals;
@@ -18,14 +17,14 @@ public class LegacyOrderServiceTest {
     @BeforeClass
     public static void setPath()
     {
-        setBasePort(Constants.legacyserviceport);
-        setBasePath(Constants.orderpath);
+        setBasePort(TestData.legacyserviceport);
+        setBasePath(TestData.orderpath);
     }
 
     @Test
     public void verifyGetLegacyIdByOrderId()
     {
-        Response res = getResponse(Constants.orderid);
+        Response res = getResponse(TestData.orderid);
         JsonPath jpath = parseResponse(res);
 
         assertEquals(200,res.getStatusCode());

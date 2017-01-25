@@ -6,9 +6,8 @@ import com.jayway.restassured.response.Response;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.testng.annotations.BeforeTest;
 
-import utils.Constants;
+import utils.TestData;
 
 import static com.jayway.restassured.RestAssured.given;
 
@@ -20,14 +19,14 @@ public class OrderServiceTest  {
     @BeforeClass
     public static void setPath()
     {
-        setBasePort(Constants.orderserviceport);
-        setBasePath(Constants.orderpath);
+        setBasePort(TestData.orderserviceport);
+        setBasePath(TestData.orderpath);
     }
 
     @Test
     public void verifyGetParcelIdById()
     {
-        Response res = getResponse(Constants.orderid);
+        Response res = getResponse(TestData.orderid);
         JsonPath jpath = parseResponse(res);
 
         assertEquals(200,res.getStatusCode());

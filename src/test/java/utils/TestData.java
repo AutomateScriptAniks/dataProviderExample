@@ -3,7 +3,7 @@ package utils;
 /**
  * Created by anikmymac on 19/01/2017.
  */
-public class Constants {
+public class TestData {
 
     public static final String deliverydate = "/delivery-date";
     public static final String orderpath = "/orders";

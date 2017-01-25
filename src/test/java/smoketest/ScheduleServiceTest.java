@@ -4,7 +4,7 @@ import com.jayway.restassured.http.ContentType;
 import org.junit.BeforeClass;
 
 import org.junit.Test;
-import utils.Constants;
+import utils.TestData;
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static utils.JsonUtils.*;
@@ -14,8 +14,8 @@ public class ScheduleServiceTest  {
     @BeforeClass
     public static void setPath()
     {
-        setBasePort(Constants.scheduleserviceport);
-        setBasePath(Constants.deliverydate);
+        setBasePort(TestData.scheduleserviceport);
+        setBasePath(TestData.deliverydate);
     }
 
    @Test
