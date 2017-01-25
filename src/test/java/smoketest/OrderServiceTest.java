@@ -4,8 +4,10 @@ package smoketest;
 import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.response.Response;
 
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+
 import utils.Constants;
 
 import static com.jayway.restassured.RestAssured.given;
@@ -15,7 +17,7 @@ import static utils.JsonUtils.*;
 
 public class OrderServiceTest  {
 
-    @BeforeTest
+    @BeforeClass
     public void setPath()
     {
         setBasePort(Constants.orderserviceport);

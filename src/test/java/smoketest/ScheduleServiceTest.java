@@ -1,8 +1,9 @@
 package smoketest;
 import com.jayway.restassured.http.ContentType;
 
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.junit.BeforeClass;
+
+import org.junit.Test;
 import utils.Constants;
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -10,7 +11,7 @@ import static utils.JsonUtils.*;
 
 public class ScheduleServiceTest  {
 
-    @BeforeTest
+    @BeforeClass
     public void setPath()
     {
         setBasePort(Constants.scheduleserviceport);

@@ -4,8 +4,9 @@ package smoketest;
 import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.response.Response;
 import org.junit.Before;
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeTest;
+import org.junit.BeforeClass;
+
+import org.junit.Test;
 import utils.Constants;
 
 import static com.jayway.restassured.RestAssured.given;
@@ -14,7 +15,7 @@ import static utils.JsonUtils.*;
 
 public class LegacyOrderServiceTest {
 
-    @BeforeTest
+    @BeforeClass
     public void setPath()
     {
         setBasePort(Constants.legacyserviceport);
