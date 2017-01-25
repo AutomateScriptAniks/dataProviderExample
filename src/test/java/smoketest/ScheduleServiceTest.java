@@ -12,7 +12,7 @@ import static utils.JsonUtils.*;
 public class ScheduleServiceTest  {
 
     @BeforeClass
-    public void setPath()
+    public static void setPath()
     {
         setBasePort(Constants.scheduleserviceport);
         setBasePath(Constants.deliverydate);

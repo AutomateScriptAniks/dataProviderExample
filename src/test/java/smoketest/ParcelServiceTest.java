@@ -14,7 +14,7 @@ import static utils.JsonUtils.setBasePort;
 public class ParcelServiceTest {
 
     @BeforeClass
-    public void setPath()
+    public static void setPath()
     {
         setBasePort(Constants.parcelserviceport);
         setBasePath(Constants.parcelId);

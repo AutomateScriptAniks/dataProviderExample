@@ -18,7 +18,7 @@ import static utils.JsonUtils.*;
 public class OrderServiceTest  {
 
     @BeforeClass
-    public void setPath()
+    public static void setPath()
     {
         setBasePort(Constants.orderserviceport);
         setBasePath(Constants.orderpath);
