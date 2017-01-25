@@ -1,18 +1,18 @@
 package smoketest;
 
 import com.jayway.restassured.http.ContentType;
-import helpers.baseClass;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 import utils.Constants;
 
 import static com.jayway.restassured.RestAssured.given;
 import static utils.JsonUtils.setBasePath;
 import static utils.JsonUtils.setBasePort;
 
-public class ParcelServiceTest extends baseClass {
+public class ParcelServiceTest {
 
-    @Before
+    @BeforeTest
     public void setPath()
     {
         setBasePort(Constants.parcelserviceport);

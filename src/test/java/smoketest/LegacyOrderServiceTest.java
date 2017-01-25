@@ -3,18 +3,18 @@ package smoketest;
 
 import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.response.Response;
-import helpers.baseClass;
 import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeTest;
 import utils.Constants;
 
 import static com.jayway.restassured.RestAssured.given;
 import static org.junit.Assert.assertEquals;
 import static utils.JsonUtils.*;
 
-public class LegacyOrderServiceTest extends baseClass {
+public class LegacyOrderServiceTest {
 
-    @Before
+    @BeforeTest
     public void setPath()
     {
         setBasePort(Constants.legacyserviceport);

@@ -10,6 +10,9 @@ import static com.jayway.restassured.RestAssured.given;
 
 public  class JsonUtils {
 
+    static {
+        RestAssured.baseURI = "http://" + System.getenv().get("BASEHOST");
+    }
 
 
     public static void setBasePort(String port)
