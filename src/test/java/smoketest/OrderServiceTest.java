@@ -30,9 +30,9 @@ public class OrderServiceTest  {
         JsonPath jpath = parseResponse(res);
 
         assertEquals(200,res.getStatusCode());
-        assertEquals("YX2DXAA3",jpath.get("parcelId"));
-        assertEquals("2017-12-23",jpath.get("deliveryDate"));
-        assertEquals("c1de2b44-601e-4a72-ba11-5d4495d2455a",jpath.get("orderId"));
+        assertEquals("I7ECZWS7",jpath.get("parcelId"));
+        assertEquals("+10000-01-03",jpath.get("deliveryDate"));
+        assertEquals("4e604991-9575-4e24-8918-ccb1c3990b94",jpath.get("orderId"));
 
 
     }
