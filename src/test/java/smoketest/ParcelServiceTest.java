@@ -17,19 +17,19 @@ public class ParcelServiceTest {
     public static void setPath()
     {
         setBasePort(TestData.parcelserviceport);
-        setBasePath(TestData.parcelId);
+        //setBasePath(TestData.parcelId);
     }
 
     @Test
     public void verifyGetParcelById()
    {
        given().
-               parameter("id","1").
+               pathParam("id","1").
                when().
-               get().
+               get(TestData.parcelId).
                then().
                contentType(ContentType.JSON).
-               statusCode(404);
+               statusCode(200);
 
    }
 

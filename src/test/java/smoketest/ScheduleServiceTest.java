@@ -15,7 +15,7 @@ public class ScheduleServiceTest  {
     public static void setPath()
     {
         setBasePort(TestData.scheduleserviceport);
-        setBasePath(TestData.deliverydate);
+        //setBasePath(TestData.deliverydate);
     }
 
    @Test
@@ -26,7 +26,7 @@ public class ScheduleServiceTest  {
                        "serviceCode","1CP",
                        "destinationPostcode","M37EH").
                when().
-               get().
+               get(TestData.deliverydate).
                then().
                contentType(ContentType.JSON).
                 body("deliveryDate",equalTo("2017-12-11")).

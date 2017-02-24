@@ -27,7 +27,7 @@ public  class JsonUtils {
 
     public static Response getResponse(String basepath)
     {
-        Response res = given().
+        Response res = given().pathParam("id",TestData.orderid).
                 when().
                 get(basepath).
                 then().

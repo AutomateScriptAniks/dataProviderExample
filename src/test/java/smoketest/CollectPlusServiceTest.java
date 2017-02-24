@@ -13,14 +13,14 @@ public class CollectPlusServiceTest {
     @BeforeClass
     public static void setPath() {
         setBasePort(TestData.collectplusserviceport);
-        setBasePath(TestData.storeId);
+        //setBasePath(TestData.storeId);
     }
 
     @Test
     public void shouldVerifyStoreId() {
-        given().pathParam("storeId", "W20T").
+        given().pathParam("storeId", TestData.strid).
                 when().
-                get().
+                get(TestData.storeId).
                 then().
                 statusCode(200);
     }
