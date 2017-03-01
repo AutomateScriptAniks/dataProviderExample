@@ -9,6 +9,7 @@ import org.bson.Document;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.Map;
 
 public class MongoDataLoader implements Closeable {
     private final String mongoHost;
