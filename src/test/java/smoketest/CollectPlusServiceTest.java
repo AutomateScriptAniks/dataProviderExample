@@ -1,5 +1,6 @@
 package smoketest;
 
+import helper.Setup;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import utils.TestData;

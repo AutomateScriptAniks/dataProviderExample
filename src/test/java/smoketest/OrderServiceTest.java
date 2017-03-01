@@ -4,6 +4,7 @@ package smoketest;
 import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.response.Response;
 
+import helper.Setup;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -20,6 +21,7 @@ public class OrderServiceTest  {
     public static void setPath()
     {
         setBasePort(TestData.orderserviceport);
+        Setup.settingOrderData();
         //setBasePath(TestData.orderpath);
     }
 
