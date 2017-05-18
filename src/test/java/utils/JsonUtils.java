@@ -1,48 +1,29 @@
 package utils;
 
-import com.jayway.restassured.RestAssured;
-import com.jayway.restassured.http.ContentType;
-import com.jayway.restassured.path.json.JsonPath;
-import com.jayway.restassured.response.Response;
 
-import static com.jayway.restassured.RestAssured.given;
+import com.google.common.collect.Maps;
+import io.restassured.http.ContentType;
+import io.restassured.path.json.JsonPath;
 
 
-public  class JsonUtils {
+import java.util.Map;
 
-    static {
-        RestAssured.baseURI = "http://" + System.getenv().get("BASEHOST");
+
+import static io.restassured.RestAssured.given;
+
+
+public class JsonUtils {
+
+
+    public void setContentType(ContentType type) { given().contentType(type);}
+
+    public JsonPath parseResponse(String resAsString) { return new JsonPath(resAsString);}
+
+    public static Map<String, String> setMap() {
+        Map<String, String> parameters = Maps.newHashMap();
+        return parameters;
     }
 
-
-    public static void setBasePort(String port)
-    {
-        RestAssured.port = Integer.valueOf(port);
-
-    }
-    public static void setBasePath(String basePath)
-    {
-        RestAssured.basePath = basePath;
-    }
-
-    public static Response getResponse(String basepath)
-    {
-        Response res = given().pathParam("id",TestData.orderid).
-                when().
-                get(basepath).
-                then().
-                contentType(ContentType.JSON).
-                extract().
-                response();
-        return res;
-
-    }
-    public static JsonPath parseResponse(Response res)
-    {
-        String json = res.asString();
-        JsonPath jpath = new JsonPath(json);
-        return jpath;
-    }
 
 
 

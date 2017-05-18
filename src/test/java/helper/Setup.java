@@ -1,16 +1,32 @@
 package helper;
 
-import utils.JsonUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+import io.restassured.RestAssured;
 import utils.MongoDataLoader;
+import utils.PropertyReader;
 import utils.TestData;
 
 public class Setup {
 
-    static MongoDataLoader getData = new MongoDataLoader(TestData.mongohost,
+     MongoDataLoader getData = new MongoDataLoader(TestData.mongohost,
             TestData.mongoport);
 
-    public static void settingLegacyData()
+     public Setup(){
+
+         //RestAssured.baseURI = "http://" + System.getenv().get("BASEHOST");
+         RestAssured.baseURI = new PropertyReader().readProperty("SIT_external_uri");
+     }
+
+    public void setBasePort(String port) {RestAssured.port = Integer.valueOf(port);
+
+    }
+    public  void setBasePath(String basePath)
     {
+        RestAssured.basePath = basePath;
+    }
+
+    public  void settingLegacyData() throws JsonProcessingException {
 
             getData.deleteAllRecordFrom
                     (TestData.mongolegacydatabase,
@@ -21,13 +37,12 @@ public class Setup {
             getData.addRecord
                     (TestData.mongolegacydatabase,
                     TestData.mongolegacycollection,
-                    TestData.jsonLegacyOrderData());
+                            new TestData().jsonCollectPlusRequest());
 
 
     }
 
-    public static void settingOrderData()
-    {
+    public  void settingOrderData() throws JsonProcessingException {
         getData.deleteAllRecordFrom
                 (TestData.mongoorderdatabase,
                         TestData.mongoordercollection,
@@ -38,7 +53,7 @@ public class Setup {
         getData.addRecord
                 (TestData.mongoorderdatabase,
                         TestData.mongoordercollection,
-                        TestData.jsonOrderData());
+                        new TestData().jsonCollectPlusRequest());
 
     }
 }
