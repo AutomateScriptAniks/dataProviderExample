@@ -9,6 +9,7 @@ import utils.JsonUtils;
 import utils.PropertyReader;
 
 import java.util.Map;
+import java.util.concurrent.ScheduledExecutorService;
 
 public abstract class BaseClass {
 
@@ -23,6 +24,7 @@ public abstract class BaseClass {
    protected static JsonPath json;
    protected Client client;
    protected OrderService orderService;
+   protected ScheduledExecutorService scheduleService;
 
 
 }

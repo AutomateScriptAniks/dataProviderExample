@@ -20,12 +20,6 @@ import java.util.UUID;
 public class HmacFilter implements AuthFilter {
     private Client client;
 
-    public HmacFilter() {
-        client = new Client();
-        client.setId(TestData.HTTP_CLIENT_ID);
-        client.setSecret(TestData.HTTP_SECRET_KEY);
-    }
-
     public HmacFilter(Client client) {
         this.client = client;
     }

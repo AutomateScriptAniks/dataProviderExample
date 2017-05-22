@@ -6,10 +6,12 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import utils.TestData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 public class OrderService extends BaseClass {
@@ -33,6 +35,10 @@ public class OrderService extends BaseClass {
                 .when()
                 .post()
                 .prettyPeek();
+
+        response
+                .then()
+                .statusCode(201);
 
         return response;
     }
@@ -63,7 +69,8 @@ public class OrderService extends BaseClass {
                 .filter(new HmacFilter(client))
                 .pathParam("orderId", orderid)
                 .when()
-                .get(getparcelPath);
+                .get(getparcelPath)
+                .prettyPeek();
 
         response
                 .then()
@@ -75,7 +82,7 @@ public class OrderService extends BaseClass {
 
     public void verifyOrderStatusAndParcelCount(String orderid,String status,int count) throws JsonProcessingException {
 
-        getOrderUsing(orderid)
+               getOrderUsing(orderid)
                 .then()
                 .body("orderStatus",equalTo(status))
                 .body("parcels",hasSize(count));
@@ -90,15 +97,14 @@ public class OrderService extends BaseClass {
                 .pathParam("orderId", orderid)
                 .contentType(ContentType.JSON)
                 .when()
-                .post(confirmOrderPath)
-                .prettyPeek();
+                .post(confirmOrderPath);
 
         response
                 .then()
                 .statusCode(204);
     }
 
-    public void deleteParcelInOrderWith(String orderid,String trackingbarcode) throws JsonProcessingException {
+    public Response deleteParcelInOrderWith(String orderid,String trackingbarcode) throws JsonProcessingException {
 
         response = given()
                 .spec(createorderuri)
@@ -106,23 +112,22 @@ public class OrderService extends BaseClass {
                 .pathParams("orderId", orderid,"trackingBarcode",trackingbarcode)
                 .contentType(ContentType.JSON)
                 .when()
-                .delete(deleteParcelPath);
+                .delete(deleteParcelPath)
+                .prettyPeek();
 
-        response
-                .then()
-                .statusCode(204);
+
+        return response;
+
     }
 
-
-    public List<String> getTrackingBarcode(String orderid)
+    public List<String> getListOfTrackingBarCode(String orderId)
     {
-        List<String> trackingBarcode= orderService.getOrderUsing(orderid)
+        List<String> trackingBarcodes = orderService.getOrderUsing(orderId)
                 .then()
                 .extract()
-                .body()
                 .path("parcels.trackingBarcode");
 
-        return trackingBarcode;
+        return trackingBarcodes;
     }
 
     public String getOrderID(String locationHeader)
