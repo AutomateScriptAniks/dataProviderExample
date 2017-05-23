@@ -3,8 +3,6 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
 
-sourceCompatibility = 1.8
-
 repositories {
     mavenCentral()
 }
@@ -20,9 +18,17 @@ dependencies {
     compile "info.cukes:cucumber-junit:1.2.5"
     compile "info.cukes:cucumber-core:1.2.5"
     compile "com.fasterxml.jackson.core:jackson-databind:2.8.7"
-    compile "org.slf4j:slf4j-log4j12:version:1.7.25"
+}
+
+def suite1 = project.hasProperty("RegressionTestSuite")
 
 
+test {
+    useTestNG() {
+        dependsOn cleanTest
+        useDefaultListeners = true
+        suites "src/test/resources/TestSuites.xml"
+    }
 }
 
 

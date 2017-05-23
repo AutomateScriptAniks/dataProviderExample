@@ -2,6 +2,8 @@ package helper;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import io.restassured.RestAssured;
+import io.restassured.config.SSLConfig;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import utils.TestData;
@@ -28,6 +30,8 @@ public class OrderService extends BaseClass {
 
     public Response AfterCreatingAOrderWithRequest(String requestBody) throws JsonProcessingException {
         response =  given()
+                .config(RestAssured.config().sslConfig(
+                new SSLConfig().allowAllHostnames()))
                 .spec(createorderuri)
                 .filter(new HmacFilter(client))
                 .body(requestBody)
@@ -41,11 +45,14 @@ public class OrderService extends BaseClass {
                 .statusCode(201);
 
         return response;
+
     }
 
     public Response AddParcelForOrderWith(String orderid) throws JsonProcessingException {
 
         response =  given()
+                .config(RestAssured.config().sslConfig(
+                        new SSLConfig().allowAllHostnames()))
                 .spec(createorderuri)
                 .filter(new HmacFilter(client))
                 .pathParam("orderId", orderid)
@@ -65,6 +72,8 @@ public class OrderService extends BaseClass {
     public Response getOrderUsing(String orderid)
     {
         response =  given()
+                .config(RestAssured.config().sslConfig(
+                        new SSLConfig().allowAllHostnames()))
                 .spec(createorderuri)
                 .filter(new HmacFilter(client))
                 .pathParam("orderId", orderid)
@@ -92,6 +101,8 @@ public class OrderService extends BaseClass {
     public void confirmOrderWith(String orderid) throws JsonProcessingException {
 
         response = given()
+                .config(RestAssured.config().sslConfig(
+                        new SSLConfig().allowAllHostnames()))
                 .spec(createorderuri)
                 .filter(new HmacFilter(client))
                 .pathParam("orderId", orderid)
@@ -107,6 +118,8 @@ public class OrderService extends BaseClass {
     public Response deleteParcelInOrderWith(String orderid,String trackingbarcode) throws JsonProcessingException {
 
         response = given()
+                .config(RestAssured.config().sslConfig(
+                        new SSLConfig().allowAllHostnames()))
                 .spec(createorderuri)
                 .filter(new HmacFilter(client))
                 .pathParams("orderId", orderid,"trackingBarcode",trackingbarcode)

@@ -1,11 +1,12 @@
-package regressionTestSuit;
+package RegressionTestSuite;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import helper.BaseClass;
 import helper.Client;
 import helper.OrderService;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Test;
 import utils.PropertyReader;
 import utils.TestData;
 import java.util.List;
@@ -15,9 +16,9 @@ import static org.junit.Assert.assertThat;
 
 public class ConsingmentJourney extends BaseClass {
 
-    @Before
+    @BeforeSuite
     public void setUp() throws Exception {
-        client = new Client();
+
         client.setId(new PropertyReader().readProperty("Order.clientId.yellow"));
         client.setSecret(new PropertyReader().readProperty("Order.secret.yellow"));
         orderService = new OrderService(client);
