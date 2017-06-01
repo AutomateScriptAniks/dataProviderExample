@@ -24,60 +24,30 @@ public class ConsingmentJourney extends BaseClass {
     }
 
     @Test
-    public void verifyMulitpleConsginmentUsingGBAddress() throws JsonProcessingException, InterruptedException {
-
+    public void verifyDeleteParcelMulitpleConsignmentFunctionality() throws JsonProcessingException, InterruptedException {
         for (int i = 1;i <= 3;i++) {
-            String fromLocationHeader = orderService.AfterCreatingAOrderWithRequest(new TestData().jsonYellowRequest())
+            String fromLocationHeader = orderService
+                    .AfterCreatingAOrderWithRequest(new TestData().jsonYellowRequest())
                     .then()
                     .extract()
                     .header("location");
             String orderId = orderService.getOrderID(fromLocationHeader);
             orderService.verifyOrderStatusAndParcelCount(orderId, "ORDER_PENDING", 0);
-            orderService.AddParcelForOrderWith(orderId);
+            for (int j = 0; j < 2; j++) {
+                orderService.AddParcelForOrderWith(orderId);
+            }
+            orderService.verifyOrderStatusAndParcelCount(orderId, "ORDER_PENDING", 2);
+            List<String> trackingBarcodes = orderService.getOrderUsing(orderId)
+                    .then()
+                    .extract()
+                    .path("parcels.trackingBarcode");
+            String deleteToBeTrackingBarcode = trackingBarcodes.get(0);
+            orderService.deleteParcelInOrderWith(orderId, deleteToBeTrackingBarcode).then().statusCode(204);
             orderService.verifyOrderStatusAndParcelCount(orderId, "ORDER_PENDING", 1);
+            assertThat(trackingBarcodes, not(contains(deleteToBeTrackingBarcode)));
             orderService.confirmOrderWith(orderId);
-            orderService.verifyOrderStatusAndParcelCount(orderId, "ORDER_ADVISED", 1);
+            orderService.deleteParcelInOrderWith(orderId, trackingBarcodes.get(1)).then().statusCode(400);
         }
-
-    }
-
-    @Test
-    public void verifyConfirmMulitpleParcelSingleConsignmentUsingGBAddress() throws JsonProcessingException, InterruptedException {
-        String fromLocationHeader = orderService.AfterCreatingAOrderWithRequest(new TestData().jsonYellowRequest())
-                        .then()
-                        .extract()
-                        .header("location");
-        String orderId = orderService.getOrderID(fromLocationHeader);
-        orderService.verifyOrderStatusAndParcelCount(orderId, "ORDER_PENDING", 0);
-        for (int i=0;i<=2;i++)
-        {orderService.AddParcelForOrderWith(orderId);}
-        orderService.verifyOrderStatusAndParcelCount(orderId, "ORDER_PENDING", 3);
-        orderService.confirmOrderWith(orderId);
-        orderService.verifyOrderStatusAndParcelCount(orderId, "ORDER_ADVISED", 3);
-    }
-
-    @Test
-    public void verifyDeleteParcelSingleConsignmentFunctionality() throws JsonProcessingException, InterruptedException {
-        String fromLocationHeader = orderService
-                .AfterCreatingAOrderWithRequest(new TestData().jsonYellowRequest())
-                .then()
-                .extract()
-                .header("location");
-        String orderId = orderService.getOrderID(fromLocationHeader);
-        orderService.verifyOrderStatusAndParcelCount(orderId, "ORDER_PENDING", 0);
-        for (int i=0;i<2;i++)
-        {orderService.AddParcelForOrderWith(orderId);}
-        orderService.verifyOrderStatusAndParcelCount(orderId, "ORDER_PENDING", 2);
-        List<String> trackingBarcodes = orderService.getOrderUsing(orderId)
-                .then()
-                .extract()
-                .path("parcels.trackingBarcode");
-        String deleteToBeTrackingBarcode = trackingBarcodes.get(0);
-        orderService.deleteParcelInOrderWith(orderId,deleteToBeTrackingBarcode).then().statusCode(204);
-        orderService.verifyOrderStatusAndParcelCount(orderId, "ORDER_PENDING", 1);
-        assertThat(trackingBarcodes,not(contains(deleteToBeTrackingBarcode)));
-        orderService.confirmOrderWith(orderId);
-        orderService.deleteParcelInOrderWith(orderId,trackingBarcodes.get(1)).then().statusCode(400);
     }
 
 
