@@ -18,10 +18,9 @@ dependencies {
     compile "info.cukes:cucumber-junit:1.2.5"
     compile "info.cukes:cucumber-core:1.2.5"
     compile "com.fasterxml.jackson.core:jackson-databind:2.8.7"
+    compile "com.opencsv:opencsv:3.9"
+
 }
-
-def suite1 = project.hasProperty("RegressionTestSuite")
-
 
 test {
     useTestNG() {

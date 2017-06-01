@@ -2,7 +2,6 @@ package RegressionTestSuite;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import helper.BaseClass;
-import helper.Client;
 import helper.OrderService;
 
 import org.testng.annotations.BeforeSuite;

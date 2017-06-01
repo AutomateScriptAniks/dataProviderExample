@@ -58,8 +58,8 @@ public class TestData {
         json.put("brand","House of Fraser");
         json.put("clientAccount","100004");
         json.put("customerReference","My Parcel");
-        json.put("service","1VX");
-        json.put("shipmentDate","2018-03-22");
+        json.put("service","12A");
+        json.put("shipmentDate","2017-06-01");
         json.put("pickupLocation","TADLEY");
 
         Map<String,Object> to = Maps.newHashMap();
@@ -67,7 +67,9 @@ public class TestData {
         Map<String,Object> address = Maps.newHashMap();
         address.put("addressLine1","Apartment 25, SpringField Court");
         address.put("countryCode","GB");
-        address.put("postcode","DB999AA");
+        address.put("postcode","M3 7EH");
+        address.put("organisationName","OrgGB");
+        address.put("departmentName","OptionalButImp");
 
         to.put("address",address);
         to.put("customerContactNumber","07448622464");
@@ -88,7 +90,7 @@ public class TestData {
         irjson.put("clientAccount","100018");
         irjson.put("customerReference","My Parcel");
         irjson.put("service","12A");
-        irjson.put("shipmentDate","2018-03-22");
+        irjson.put("shipmentDate","2017-06-01");
         irjson.put("pickupLocation","HATFIELD");
 
         Map<String,Object> irto = Maps.newHashMap();
@@ -96,7 +98,9 @@ public class TestData {
         Map<String,Object> iraddress = Maps.newHashMap();
         iraddress.put("addressLine1","Dublin");
         iraddress.put("countryCode","IE");
-        iraddress.put("postcode",null);
+        iraddress.put("postcode","D02 AF30");
+        iraddress.put("organisationName",null);
+        iraddress.put("departmentName","OptionalButImp");
 
         irto.put("address",iraddress);
         irto.put("customerContactNumber","07448622464");

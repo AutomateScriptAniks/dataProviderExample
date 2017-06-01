@@ -2,7 +2,6 @@ package RegressionTestSuite;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import helper.BaseClass;
-import helper.Client;
 import helper.OrderService;
 
 
@@ -35,10 +34,5 @@ public class ConsignmentJourneyIreland extends BaseClass {
             orderService.confirmOrderWith(orderId);
             orderService.verifyOrderStatusAndParcelCount(orderId, "ORDER_ADVISED", 1);
         }
-
     }
-
-
-
-
 }

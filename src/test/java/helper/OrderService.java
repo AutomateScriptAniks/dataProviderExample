@@ -22,7 +22,7 @@ public class OrderService extends BaseClass {
     private static final String getparcelPath = "/{orderId}";
     private static final String confirmOrderPath = "/{orderId}/confirm";
     private static final String deleteParcelPath = "/{orderId}/parcels/{trackingBarcode}";
-    private final Client client;
+
 
     public OrderService(Client client) {
         this.client = client;
