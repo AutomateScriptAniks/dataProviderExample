@@ -59,7 +59,7 @@ public class TestData {
         json.put("clientAccount","100004");
         json.put("customerReference","My Parcel");
         json.put("service","12A");
-        json.put("shipmentDate","2017-06-01");
+        json.put("shipmentDate","2018-06-10");
         json.put("pickupLocation","TADLEY");
 
         Map<String,Object> to = Maps.newHashMap();
@@ -90,7 +90,7 @@ public class TestData {
         irjson.put("clientAccount","100018");
         irjson.put("customerReference","My Parcel");
         irjson.put("service","12A");
-        irjson.put("shipmentDate","2017-06-01");
+        irjson.put("shipmentDate","2018-06-10");
         irjson.put("pickupLocation","HATFIELD");
 
         Map<String,Object> irto = Maps.newHashMap();

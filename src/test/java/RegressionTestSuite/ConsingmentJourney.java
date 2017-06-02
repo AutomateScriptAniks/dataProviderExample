@@ -47,6 +47,7 @@ public class ConsingmentJourney extends BaseClass {
             assertThat(trackingBarcodes, not(contains(deleteToBeTrackingBarcode)));
             orderService.confirmOrderWith(orderId);
             orderService.deleteParcelInOrderWith(orderId, trackingBarcodes.get(1)).then().statusCode(400);
+
         }
     }
 
