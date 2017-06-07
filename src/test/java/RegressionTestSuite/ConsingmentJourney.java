@@ -11,18 +11,19 @@ import org.testng.annotations.Test;
 import utils.PropertyReader;
 import utils.TestData;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 import static org.awaitility.Awaitility.await;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.*;
+
 import static org.junit.Assert.assertThat;
+
 
 
 public class ConsingmentJourney extends BaseClass {
 
-    //private static final String trackingId = "JD0002216000150047";
+    private static final String expectedEventCode = "1";
+    private static final String expectedEventDescription = "Parcel data received awaiting coll.";
 
     @BeforeSuite
     public void setUp() throws Exception {
@@ -81,15 +82,18 @@ public class ConsingmentJourney extends BaseClass {
             orderService.confirmOrderWith(orderId);
             orderService.deleteParcelInOrderWith(orderId, trackingBarcodes.get(0)).then().statusCode(400);
             await().atMost(Duration.FIVE_MINUTES)
-                        .pollDelay(new Duration(120, TimeUnit.SECONDS))
-                        .until(() -> trackingService
-                                .getOrderStatus(trackingBarcodes.get(0)).thenReturn().statusCode() == 200);
-        }
+                    .pollDelay(new Duration(180, TimeUnit.SECONDS))
+                    .until(() -> trackingService
+                            .getOrderStatus(trackingBarcodes.get(0)).thenReturn().statusCode() == 200);
+            trackingService.getOrderStatus(trackingBarcodes.get(0))
+                    .then()
+                    .body("trackingEvents.eventCode",contains(expectedEventCode))
+                    .and()
+                    .body("trackingEvents.eventDescription",contains(expectedEventDescription));
+
+    }
 
 }
-
-
-
 
 
 

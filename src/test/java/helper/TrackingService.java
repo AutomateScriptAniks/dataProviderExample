@@ -15,7 +15,8 @@ public class TrackingService extends BaseClass {
                 .pathParam("trackingId",trackingId)
                 .when()
                 .contentType(ContentType.JSON)
-                .get(trackingAPIPath);
+                .get(trackingAPIPath)
+                .prettyPeek();
 
         return response;
 
