@@ -1,5 +1,7 @@
 package helper;
 
+import io.restassured.RestAssured;
+import io.restassured.config.SSLConfig;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
@@ -13,7 +15,9 @@ public class ScheduleService extends BaseClass {
 
     public Response getDeliveryOption(Map<String,String> params)
     {
-        Response response = given()
+        Response response = given().
+                    config(RestAssured.config().sslConfig(
+                    new SSLConfig().allowAllHostnames()))
                             .filter(new HmacFilter(client))
                             .spec(deliveryoptionuri)
                             .queryParams(params)
