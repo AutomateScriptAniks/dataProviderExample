@@ -56,11 +56,11 @@ public class TestData {
 
         Map<String, Object> json = Maps.newHashMap();
         json.put("brand","House of Fraser");
-        json.put("clientAccount","100004");
+        json.put("clientAccount","100019");
         json.put("customerReference","My Parcel");
-        json.put("service","12A");
-        json.put("shipmentDate","2018-06-10");
-        json.put("pickupLocation","TADLEY");
+        json.put("service","2VN");
+        json.put("shipmentDate","2017-06-10");
+        json.put("pickupLocation","LIVERPOOL");
 
         Map<String,Object> to = Maps.newHashMap();
 
@@ -68,13 +68,13 @@ public class TestData {
         address.put("addressLine1","Apartment 25, SpringField Court");
         address.put("countryCode","GB");
         address.put("postcode","M3 7EH");
-        address.put("organisationName","OrgGB");
+        address.put("organisationName","Yodel");
         address.put("departmentName","OptionalButImp");
 
         to.put("address",address);
         to.put("customerContactNumber","07448622464");
         to.put("customerEmail","string@string.com");
-        to.put("customerName","Seeburger-To-Fusion");
+        to.put("customerName","AnikWithServiceName");
         to.put("emailNotification",true);
         to.put("phoneNotification",true);
         json.put("to",to);

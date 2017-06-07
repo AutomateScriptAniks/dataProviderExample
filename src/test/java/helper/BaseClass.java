@@ -34,12 +34,17 @@ public abstract class BaseClass {
            RequestSpecBuilder().
            setBaseUri(new PropertyReader().readProperty("deliveryOption.uri")).build();
 
+   protected static RequestSpecification trackinguri = new
+           RequestSpecBuilder().
+           setBaseUri(new PropertyReader().readProperty("tracking.uri")).build();
+
 
    protected static Response response;
    protected static JsonPath json;
    protected Client client = new Client();
    protected OrderService orderService;
    protected ScheduleService scheduleService;
+   protected TrackingService trackingService;
 
 
 

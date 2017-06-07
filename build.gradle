@@ -19,6 +19,7 @@ dependencies {
     compile "info.cukes:cucumber-core:1.2.5"
     compile "com.fasterxml.jackson.core:jackson-databind:2.8.7"
     compile "com.opencsv:opencsv:3.9"
+    compile "org.awaitility:awaitility:3.0.0"
 
 }
 

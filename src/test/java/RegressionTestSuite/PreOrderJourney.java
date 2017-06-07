@@ -24,8 +24,8 @@ public class PreOrderJourney extends BaseClass {
     @BeforeSuite
     public void setUp()
     {
-        client.setId(new PropertyReader().readProperty("Order.clientId.yellow"));
-        client.setSecret(new PropertyReader().readProperty("Order.secret.yellow"));
+        client.setId(new PropertyReader().readProperty("Order.clientId.preOrder"));
+        client.setSecret(new PropertyReader().readProperty("Order.secret.preOrder"));
         scheduleService = new ScheduleService(client);
     }
 
