@@ -1,5 +1,6 @@
 package RegressionTestSuite;
 import helper.BaseClass;
+import helper.DataProviders;
 import helper.HmacFilter;
 import helper.ScheduleService;
 import io.restassured.http.ContentType;
@@ -29,15 +30,14 @@ public class PreOrderJourney extends BaseClass {
         scheduleService = new ScheduleService(client);
     }
 
-    @Test(dataProvider = "dataForDeliveryOptions")
+    @Test(dataProvider = "dataForDeliveryOptions", dataProviderClass = DataProviders.class)
     public void verifyDeliveryOptionWithinGBUsingMuiltpleData(String clientAccount
                                                                 ,String pickupLocation
                                                                 ,String destinationPostcode
                                                                 ,String destinationCountryCode
                                                                 ,String shipmentDate
                                                                 ,String expectedDeliveryDateFirstService
-                                                                ,String expectedDeliveryDateSecondService
-                                                                ,String ExpectedDeliveryDateThirdService)
+                                                                ,String expectedDeliveryDateSecondService)
     {
         given()
                 .filter(new HmacFilter(client))
@@ -54,20 +54,11 @@ public class PreOrderJourney extends BaseClass {
                 .then()
                 .statusCode(200)
                 .body(
-            "options.serviceCode", hasItems("C72P","C24P","12A"),
+            "options.serviceCode", hasItems("C72P","C24P"),
             "options.find { it.serviceCode == 'C72P' }.deliverByDate", is(expectedDeliveryDateFirstService),
-            "options.find { it.serviceCode == 'C24P' }.deliverByDate", is(expectedDeliveryDateSecondService),
-            "options.find { it.serviceCode == '12A' }.deliverByDate", is(ExpectedDeliveryDateThirdService));
+            "options.find { it.serviceCode == 'C24P' }.deliverByDate", is(expectedDeliveryDateSecondService));
     }
 
-    @DataProvider
-    public Iterator<Object[]> dataForDeliveryOptions() throws IOException {
 
-        List<Object[]> csvData ;
-        csvData = new TestDataReaderFromCsv().getCsvData("src/test/resources/testData/deliverOptionsTestData.csv");
-
-
-        return csvData.iterator();
-    }
 
 }

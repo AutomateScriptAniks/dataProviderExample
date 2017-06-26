@@ -6,6 +6,7 @@ import io.restassured.RestAssured;
 import io.restassured.config.SSLConfig;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import utils.TestData;
 
 import java.util.ArrayList;
@@ -18,26 +19,27 @@ import static org.hamcrest.core.IsEqual.equalTo;
 
 public class OrderService extends BaseClass {
 
-    private static final String addparcelPath = "/{orderId}/parcels";
-    private static final String getparcelPath = "/{orderId}";
-    private static final String confirmOrderPath = "/{orderId}/confirm";
-    private static final String deleteParcelPath = "/{orderId}/parcels/{trackingBarcode}";
+    private static final String createOrderPath = "/orders";
+    private static final String addparcelPath = "/orders/{orderId}/parcels";
+    private static final String getparcelPath = "/orders/{orderId}";
+    private static final String confirmOrderPath = "/orders/{orderId}/confirm";
+    private static final String deleteParcelPath = "/orders/{orderId}/parcels/{trackingBarcode}";
 
 
     public OrderService(Client client) {
         this.client = client;
     }
 
-    public Response AfterCreatingAOrderWithRequest(String requestBody) throws JsonProcessingException {
+    public Response AfterCreatingAOrderWithRequest(String requestBody, RequestSpecification uri) throws JsonProcessingException {
         response =  given()
                 .config(RestAssured.config().sslConfig(
                 new SSLConfig().allowAllHostnames()))
-                .spec(createorderuri)
+                .spec(uri)
                 .filter(new HmacFilter(client))
                 .body(requestBody)
                 .contentType(ContentType.JSON)
                 .when()
-                .post()
+                .post(createOrderPath)
                 .prettyPeek();
 
         response
@@ -48,12 +50,12 @@ public class OrderService extends BaseClass {
 
     }
 
-    public Response AddParcelForOrderWith(String orderid) throws JsonProcessingException {
+    public Response AddParcelForOrderWith(String orderid,RequestSpecification uri) throws JsonProcessingException {
 
         response =  given()
                 .config(RestAssured.config().sslConfig(
                         new SSLConfig().allowAllHostnames()))
-                .spec(createorderuri)
+                .spec(uri)
                 .filter(new HmacFilter(client))
                 .pathParam("orderId", orderid)
                 .body(new TestData().jsonAddParcelRequest())
@@ -62,19 +64,15 @@ public class OrderService extends BaseClass {
                 .post(addparcelPath);
 
 
-        response
-                .then()
-                .statusCode(201);
-
         return response;
     }
 
-    public Response getOrderUsing(String orderid)
+    public Response getOrderUsing(String orderid,RequestSpecification uri)
     {
         response =  given()
                 .config(RestAssured.config().sslConfig(
                         new SSLConfig().allowAllHostnames()))
-                .spec(createorderuri)
+                .spec(uri)
                 .filter(new HmacFilter(client))
                 .pathParam("orderId", orderid)
                 .when()
@@ -89,21 +87,21 @@ public class OrderService extends BaseClass {
 
     }
 
-    public void verifyOrderStatusAndParcelCount(String orderid,String status,int count) throws JsonProcessingException {
+    public void verifyOrderStatusAndParcelCount(String orderid,String status,int count,RequestSpecification uri) throws JsonProcessingException {
 
-               getOrderUsing(orderid)
+               getOrderUsing(orderid,uri)
                 .then()
                 .body("orderStatus",equalTo(status))
                 .body("parcels",hasSize(count));
 
     }
 
-    public void confirmOrderWith(String orderid) throws JsonProcessingException {
+    public void confirmOrderWith(String orderid,RequestSpecification uri) throws JsonProcessingException {
 
         response = given()
                 .config(RestAssured.config().sslConfig(
                         new SSLConfig().allowAllHostnames()))
-                .spec(createorderuri)
+                .spec(uri)
                 .filter(new HmacFilter(client))
                 .pathParam("orderId", orderid)
                 .contentType(ContentType.JSON)
@@ -115,12 +113,12 @@ public class OrderService extends BaseClass {
                 .statusCode(204);
     }
 
-    public Response deleteParcelInOrderWith(String orderid,String trackingbarcode) throws JsonProcessingException {
+    public Response deleteParcelInOrderWith(String orderid,String trackingbarcode,RequestSpecification uri) throws JsonProcessingException {
 
         response = given()
                 .config(RestAssured.config().sslConfig(
                         new SSLConfig().allowAllHostnames()))
-                .spec(createorderuri)
+                .spec(uri)
                 .filter(new HmacFilter(client))
                 .pathParams("orderId", orderid,"trackingBarcode",trackingbarcode)
                 .contentType(ContentType.JSON)
@@ -133,15 +131,6 @@ public class OrderService extends BaseClass {
 
     }
 
-    public List<String> getListOfTrackingBarCode(String orderId)
-    {
-        List<String> trackingBarcodes = orderService.getOrderUsing(orderId)
-                .then()
-                .extract()
-                .path("parcels.trackingBarcode");
-
-        return trackingBarcodes;
-    }
 
     public String getOrderID(String locationHeader)
     {

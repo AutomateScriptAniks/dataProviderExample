@@ -13,30 +13,15 @@ public class TestData {
 
     ObjectMapper mapper = new ObjectMapper();
 
-    public static final String mongohost = "10.48.211.120";
-    public static final String mongoport = "27017";
-    public static final String mongolegacydatabase = "legacy-orders";
-    public static final String mongolegacycollection = "legacy.orders";
-    public static final String mongoorderdatabase = "orders";
-    public static final String mongoordercollection = "order";
-    public static final String legacyfieldname = "legacyId";
-    public static final String legacyfieldvalue = "8TMJ78610122A064";
-    public static final String orderfieldname = "orderId";
-    public static final String orderfieldvalue = "da19a9db-b754-47a6-a54b-5a07d0656526";
-
-
-
-
-
     public String jsonCollectPlusRequest() throws JsonProcessingException {
 
         Map<String, Object> json = Maps.newHashMap();
         json.put("brand","House of Fraser");
-        json.put("clientAccount","100003");
+        json.put("clientAccount","100001");
         json.put("customerReference","My Parcel");
         json.put("service","C24P");
         json.put("shipmentDate","2018-03-22");
-        json.put("pickupLocation","MARPLE");
+        json.put("pickupLocation","stockport");
 
         Map<String,Object> to = Maps.newHashMap();
         to.put("customerContactNumber","07448622464");
@@ -45,7 +30,7 @@ public class TestData {
         to.put("customerContactStrategy","ES");
         to.put("emailNotification",true);
         to.put("phoneNotification",true);
-        to.put("storeCode","W20T");
+        to.put("storeCode","W20C");
         json.put("to",to);
 
         return mapper.writeValueAsString(json);
@@ -56,11 +41,11 @@ public class TestData {
 
         Map<String, Object> json = Maps.newHashMap();
         json.put("brand","House of Fraser");
-        json.put("clientAccount","100019");
+        json.put("clientAccount","100021");
         json.put("customerReference","My Parcel");
-        json.put("service","2VN");
-        json.put("shipmentDate","2017-06-10");
-        json.put("pickupLocation","LIVERPOOL");
+        json.put("service","12A");
+        json.put("shipmentDate","2018-07-10");
+        json.put("pickupLocation","LIVERPool");
 
         Map<String,Object> to = Maps.newHashMap();
 
@@ -70,6 +55,7 @@ public class TestData {
         address.put("postcode","M3 7EH");
         address.put("organisationName","Yodel");
         address.put("departmentName","OptionalButImp");
+        address.put("town","Manchester");
 
         to.put("address",address);
         to.put("customerContactNumber","07448622464");
@@ -87,11 +73,11 @@ public class TestData {
 
         Map<String, Object> irjson = Maps.newHashMap();
         irjson.put("brand","House of Fraser");
-        irjson.put("clientAccount","100018");
+        irjson.put("clientAccount","100021");
         irjson.put("customerReference","My Parcel");
-        irjson.put("service","12A");
+        irjson.put("service","1EEN");
         irjson.put("shipmentDate","2018-06-10");
-        irjson.put("pickupLocation","HATFIELD");
+        irjson.put("pickupLocation","LIVERPOOL");
 
         Map<String,Object> irto = Maps.newHashMap();
 
@@ -101,6 +87,7 @@ public class TestData {
         iraddress.put("postcode","D02 AF30");
         iraddress.put("organisationName",null);
         iraddress.put("departmentName","OptionalButImp");
+        iraddress.put("town","Dublin");
 
         irto.put("address",iraddress);
         irto.put("customerContactNumber","07448622464");

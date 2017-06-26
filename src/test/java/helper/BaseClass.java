@@ -16,6 +16,7 @@ import utils.TestDataReaderFromCsv;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
@@ -26,9 +27,20 @@ public abstract class BaseClass {
 
    protected static Map<String, String> params =  new JsonUtils().setMap();
 
-   protected static RequestSpecification createorderuri = new
+   protected static RequestSpecification uriSpec(String uri) {
+
+      RequestSpecification createorderuri = new
+              RequestSpecBuilder().
+              setBaseUri(uri).build();
+
+      return createorderuri;
+   }
+
+   RequestSpecification createorderuri = new
            RequestSpecBuilder().
            setBaseUri(new PropertyReader().readProperty("Order.uri")).build();
+
+
 
    protected static RequestSpecification deliveryoptionuri = new
            RequestSpecBuilder().
@@ -45,6 +57,8 @@ public abstract class BaseClass {
    protected OrderService orderService;
    protected ScheduleService scheduleService;
    protected TrackingService trackingService;
+
+
 
 
 

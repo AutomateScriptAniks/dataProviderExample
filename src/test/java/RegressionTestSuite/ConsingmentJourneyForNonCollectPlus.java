@@ -2,14 +2,18 @@ package RegressionTestSuite;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import helper.BaseClass;
+import helper.DataProviders;
 import helper.OrderService;
 
 import helper.TrackingService;
 import org.awaitility.Duration;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import utils.PropertyReader;
 import utils.TestData;
+
+import java.net.URI;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -18,9 +22,7 @@ import static org.hamcrest.Matchers.*;
 
 import static org.junit.Assert.assertThat;
 
-
-
-public class ConsingmentJourney extends BaseClass {
+public class ConsingmentJourneyForNonCollectPlus extends BaseClass {
 
     private static final String expectedEventCode = "1";
     private static final String expectedEventDescription = "Parcel data received awaiting coll.";
@@ -34,52 +36,57 @@ public class ConsingmentJourney extends BaseClass {
         trackingService = new TrackingService();
     }
 
-    @Test
-    public void verifyDeleteParcelMultipleConsignmentFunctionality() throws JsonProcessingException, InterruptedException {
-        for (int i = 1; i <= 3; i++) {
+    @Test(dataProvider="endpointForConsignmentJourney",dataProviderClass = DataProviders.class)
+    public void verifyMultipleConsignmentJourneyUsingGBAddress(String uri) throws JsonProcessingException, InterruptedException {
+
+        for (int i = 1; i <= 2; i++) {
             String fromLocationHeader = orderService
-                    .AfterCreatingAOrderWithRequest(new TestData().jsonYellowRequest())
+                    .AfterCreatingAOrderWithRequest(new TestData().jsonYellowRequest(),uriSpec(uri))
                     .then()
                     .extract()
                     .header("location");
             String orderId = orderService.getOrderID(fromLocationHeader);
-            orderService.verifyOrderStatusAndParcelCount(orderId, "ORDER_PENDING", 0);
+            orderService.verifyOrderStatusAndParcelCount(orderId, "ORDER_PENDING", 0,uriSpec(uri));
             for (int j = 0; j < 2; j++) {
-                orderService.AddParcelForOrderWith(orderId);
+                orderService.AddParcelForOrderWith(orderId,uriSpec(uri));
             }
-            orderService.verifyOrderStatusAndParcelCount(orderId, "ORDER_PENDING", 2);
-            List<String> trackingBarcodes = orderService.getOrderUsing(orderId)
+            orderService.verifyOrderStatusAndParcelCount(orderId, "ORDER_PENDING", 2,uriSpec(uri));
+            List<String> trackingBarcodes = orderService.getOrderUsing(orderId,uriSpec(uri))
                     .then()
                     .extract()
                     .path("parcels.trackingBarcode");
             String deleteToBeTrackingBarcode = trackingBarcodes.get(0);
-            orderService.deleteParcelInOrderWith(orderId, deleteToBeTrackingBarcode).then().statusCode(204);
-            orderService.verifyOrderStatusAndParcelCount(orderId, "ORDER_PENDING", 1);
+            orderService.deleteParcelInOrderWith(orderId, deleteToBeTrackingBarcode,uriSpec(uri)).then().statusCode(204);
+            orderService.verifyOrderStatusAndParcelCount(orderId, "ORDER_PENDING", 1,uriSpec(uri));
             assertThat(trackingBarcodes, not(contains(deleteToBeTrackingBarcode)));
-            orderService.confirmOrderWith(orderId);
-            orderService.deleteParcelInOrderWith(orderId, trackingBarcodes.get(1)).then().statusCode(400);
+            orderService.confirmOrderWith(orderId,uriSpec(uri));
+            orderService.deleteParcelInOrderWith(orderId, trackingBarcodes.get(1),uriSpec(uri)).then().statusCode(400);
 
         }
     }
 
-    @Test
-    public void verifyTrackingAPIFunctionality() throws JsonProcessingException, InterruptedException {
-            String fromLocationHeader = orderService
-                    .AfterCreatingAOrderWithRequest(new TestData().jsonYellowRequest())
+    @Test(dataProvider="endpointForConsignmentJourney",dataProviderClass = DataProviders.class)
+    public void verifyDeleteAndConfirmUsingIEAddress(String uri) throws JsonProcessingException, InterruptedException {
+            String fromLocationHeader = orderService.AfterCreatingAOrderWithRequest(new TestData().jsonYellowRequestForIreland(),uriSpec(uri))
                     .then()
                     .extract()
                     .header("location");
             String orderId = orderService.getOrderID(fromLocationHeader);
-            orderService.verifyOrderStatusAndParcelCount(orderId, "ORDER_PENDING", 0);
-            orderService.AddParcelForOrderWith(orderId);
-            orderService.verifyOrderStatusAndParcelCount(orderId, "ORDER_PENDING", 1);
-            List<String> trackingBarcodes = orderService.getOrderUsing(orderId)
+            orderService.verifyOrderStatusAndParcelCount(orderId, "ORDER_PENDING", 0,uriSpec(uri));
+            orderService.AddParcelForOrderWith(orderId,uriSpec(uri));
+            orderService.verifyOrderStatusAndParcelCount(orderId, "ORDER_PENDING", 1,uriSpec(uri));
+            List<String> trackingBarcodes = orderService.getOrderUsing(orderId,uriSpec(uri))
                     .then()
                     .extract()
                     .path("parcels.trackingBarcode");
-            orderService.verifyOrderStatusAndParcelCount(orderId, "ORDER_PENDING", 1);
-            orderService.confirmOrderWith(orderId);
-            orderService.deleteParcelInOrderWith(orderId, trackingBarcodes.get(0)).then().statusCode(400);
+            orderService.confirmOrderWith(orderId,uriSpec(uri));
+            orderService.verifyOrderStatusAndParcelCount(orderId, "ORDER_ADVISED", 1,uriSpec(uri));
+            orderService.deleteParcelInOrderWith(orderId,trackingBarcodes.get(0),uriSpec(uri)).then().statusCode(400);
+        }
+}
+
+
+            /*
             await().atMost(Duration.FIVE_MINUTES)
                     .pollDelay(new Duration(180, TimeUnit.SECONDS))
                     .until(() -> trackingService
@@ -90,9 +97,11 @@ public class ConsingmentJourney extends BaseClass {
                     .and()
                     .body("trackingEvents.eventDescription",contains(expectedEventDescription));
 
-    }
 
-}
+    }
+   */
+
+
 
 
 
