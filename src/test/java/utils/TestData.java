@@ -3,13 +3,16 @@ package utils;
 import com.beust.jcommander.internal.Maps;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import helper.BaseClass;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class TestData {
+public class TestData extends BaseClass {
 
     ObjectMapper mapper = new ObjectMapper();
 
@@ -20,7 +23,7 @@ public class TestData {
         json.put("clientAccount","100001");
         json.put("customerReference","My Parcel");
         json.put("service","C24P");
-        json.put("shipmentDate","2018-03-22");
+        json.put("shipmentDate",todaysDate);
         json.put("pickupLocation","stockport");
 
         Map<String,Object> to = Maps.newHashMap();
@@ -41,11 +44,11 @@ public class TestData {
 
         Map<String, Object> json = Maps.newHashMap();
         json.put("brand","House of Fraser");
-        json.put("clientAccount","100021");
+        json.put("clientAccount","100018");
         json.put("customerReference","My Parcel");
         json.put("service","12A");
-        json.put("shipmentDate","2018-07-10");
-        json.put("pickupLocation","LIVERPool");
+        json.put("shipmentDate",todaysDate);
+        json.put("pickupLocation","hatfield");
 
         Map<String,Object> to = Maps.newHashMap();
 
@@ -73,11 +76,11 @@ public class TestData {
 
         Map<String, Object> irjson = Maps.newHashMap();
         irjson.put("brand","House of Fraser");
-        irjson.put("clientAccount","100021");
+        irjson.put("clientAccount","100018");
         irjson.put("customerReference","My Parcel");
-        irjson.put("service","1EEN");
-        irjson.put("shipmentDate","2018-06-10");
-        irjson.put("pickupLocation","LIVERPOOL");
+        irjson.put("service","1EEP");
+        irjson.put("shipmentDate",todaysDate);
+        irjson.put("pickupLocation","HATFIELD");
 
         Map<String,Object> irto = Maps.newHashMap();
 

@@ -17,7 +17,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -46,6 +48,10 @@ public abstract class BaseClass {
            RequestSpecBuilder().
            setBaseUri(new PropertyReader().readProperty("deliveryOption.uri")).build();
 
+   protected static RequestSpecification outhtokenbuilder = new
+           RequestSpecBuilder().
+           setBaseUri(new PropertyReader().readProperty("oauth.uri")).build();
+
    protected static RequestSpecification trackinguri = new
            RequestSpecBuilder().
            setBaseUri(new PropertyReader().readProperty("tracking.uri")).build();
@@ -57,6 +63,10 @@ public abstract class BaseClass {
    protected OrderService orderService;
    protected ScheduleService scheduleService;
    protected TrackingService trackingService;
+   protected OauthTokenReader tokenReader;
+
+
+   protected String todaysDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
 
 
